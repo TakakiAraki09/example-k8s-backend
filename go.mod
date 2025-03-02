@@ -17,4 +17,5 @@ require (
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/sosodev/duration v1.3.1 // indirect
+	github.com/sqlc-dev/sqlc v1.28.0 // indirect
 )
