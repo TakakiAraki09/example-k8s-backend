@@ -1,0 +1,13 @@
+version: "3"
+services:
+  app:
+    container_name: go_container
+    build:
+      context: ./
+    ports:
+      - 8080:8080
+    tty: true
+    volumes:
+      - ./:/go/src/app
+volumes:
+  go-db-volume:
