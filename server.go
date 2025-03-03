@@ -31,7 +31,7 @@ func main() {
 	if port == "" {
 		port = constants.DefaultPort
 	}
-	db, err := sql.Open("mysql", "root:root@/example_database?parseTime=true")
+	db, err := sql.Open("mysql", "root:1f2d1e2e67df@/example_database?parseTime=true")
 	defer db.Close()
 	if err != nil {
 		log.Fatal(err)
