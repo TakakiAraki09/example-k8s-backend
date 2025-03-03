@@ -15,6 +15,7 @@ import (
 	"github.com/TakakiAraki09/k8s-lesson/constants"
 	"github.com/TakakiAraki09/k8s-lesson/database"
 	"github.com/TakakiAraki09/k8s-lesson/graph"
+	"github.com/TakakiAraki09/k8s-lesson/utils"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 	"github.com/vektah/gqlparser/v2/ast"
@@ -31,11 +32,18 @@ func main() {
 	if port == "" {
 		port = constants.DefaultPort
 	}
-	db, err := sql.Open("mysql", "root:1f2d1e2e67df@/example_database?parseTime=true")
-	defer db.Close()
+
+	db, err := sql.Open("mysql", utils.CreateDBUrlString(utils.DatabaseMetadata{
+		User:     os.Getenv(constants.EnvDbUser),
+		Password: os.Getenv(constants.EnvDbPassword),
+		Host:     os.Getenv(constants.EnvDbHost),
+		Port:     os.Getenv(constants.EnvDbPort),
+		Table:    "example_database",
+	}))
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
 
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
 
@@ -56,13 +64,6 @@ func main() {
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 
 	queries := database.New(db)
-	// CreateExampleContentParams
-
-	// queries.CreateExampleContent(ctx,
-	// 	database.CreateExampleContentParams{
-	// 		Title: sql.NullString{String: "Hello World", Valid: true},
-	// 		Hoge:  sql.NullString{String: "Hoge", Valid: true},
-	// 	})
 	result, err := queries.ExampleOne(ctx)
 	if err != nil {
 		log.Fatal("hogehoge")
