@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"database/sql"
 	"log"
 	"net/http"
@@ -13,7 +12,6 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/TakakiAraki09/k8s-lesson/constants"
-	"github.com/TakakiAraki09/k8s-lesson/database"
 	"github.com/TakakiAraki09/k8s-lesson/graph"
 	"github.com/TakakiAraki09/k8s-lesson/utils"
 	_ "github.com/go-sql-driver/mysql"
@@ -23,7 +21,7 @@ import (
 
 func main() {
 	err := godotenv.Load(".env.local")
-	ctx := context.Background()
+	// ctx := context.Background()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
@@ -63,16 +61,15 @@ func main() {
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 
-	queries := database.New(db)
-	result, err := queries.ExampleOne(ctx)
-	if err != nil {
-		log.Fatal("hogehoge")
-		log.Fatal(err)
-	}
-
-	if result.Title.Valid {
-		log.Printf(result.Title.String)
-	}
+	// queries := database.New(db)
+	// result, err := queries.ExampleOne(ctx)
+	// if err != nil {
+	// 	log.Fatal("hogehoge")
+	// 	log.Fatal(err)
+	// }
+	// if result.Title.Valid {
+	// 	log.Printf(result.Title.String)
+	// }
 
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
