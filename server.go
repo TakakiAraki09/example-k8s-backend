@@ -20,7 +20,7 @@ import (
 )
 
 func main() {
-	err := godotenv.Load(".env.local")
+	err := godotenv.Load(".env")
 	// ctx := context.Background()
 	if err != nil {
 		log.Fatal("Error loading .env file")
