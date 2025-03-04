@@ -1,6 +1,7 @@
 package main
 
 import (
+	// "context"
 	"database/sql"
 	"log"
 	"net/http"
@@ -14,6 +15,8 @@ import (
 	"github.com/TakakiAraki09/k8s-lesson/constants"
 	"github.com/TakakiAraki09/k8s-lesson/graph"
 	"github.com/TakakiAraki09/k8s-lesson/internal"
+
+	// "github.com/TakakiAraki09/k8s-lesson/internal/database"
 	"github.com/TakakiAraki09/k8s-lesson/utils"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
