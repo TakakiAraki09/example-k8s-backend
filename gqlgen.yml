@@ -1,15 +1,15 @@
 # Where are all the schema files located? globs are supported eg  src/**/*.graphqls
 schema:
-  - graph/*.graphqls
+  - ./schema/graph/*.graphqls
 
 # Where should the generated server code go?
 exec:
-  package: graph
+  filename: internal/generated.go
+  package: internal
+
   layout: single-file # Only other option is "follow-schema," ie multi-file.
 
   # Only for single-file layout:
-  filename: graph/generated.go
-
   # Only for follow-schema layout:
   # dir: graph
   # filename_template: "{name}.generated.go"

@@ -13,6 +13,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/TakakiAraki09/k8s-lesson/constants"
 	"github.com/TakakiAraki09/k8s-lesson/graph"
+	"github.com/TakakiAraki09/k8s-lesson/internal"
 	"github.com/TakakiAraki09/k8s-lesson/utils"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
@@ -43,7 +44,7 @@ func main() {
 	}
 	defer db.Close()
 
-	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	srv := handler.New(internal.NewExecutableSchema(internal.Config{Resolvers: &graph.Resolver{}}))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
