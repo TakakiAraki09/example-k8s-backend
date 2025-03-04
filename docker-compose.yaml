@@ -9,5 +9,17 @@ services:
     tty: true
     volumes:
       - ./:/go/src/app
+  db:
+    container_name: go_container
+    build:
+      context: ghcr.io/takakiaraki09/example-k8s-backend:latest
+    ports:
+      - 3311:8080
+    tty: true
+    environment:
+      - DB_PORT=3311
+      - DB_HOST=127.0.0.1
+      - DB_USER=root
+      - DB_PASSWORD=root
 volumes:
   go-db-volume:
