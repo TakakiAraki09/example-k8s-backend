@@ -2,3 +2,4 @@
 .DS_Store
 .env
 internal
+schema/db/schema.sql
