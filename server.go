@@ -2,6 +2,8 @@ package main
 
 import (
 	// "context"
+
+	"context"
 	"database/sql"
 	"log"
 	"net/http"
@@ -13,11 +15,13 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/TakakiAraki09/k8s-lesson/constants"
-	"github.com/TakakiAraki09/k8s-lesson/graph"
-	"github.com/TakakiAraki09/k8s-lesson/internal"
+	"github.com/TakakiAraki09/k8s-lesson/internal/database"
+	"github.com/TakakiAraki09/k8s-lesson/internal/generated"
+	"github.com/TakakiAraki09/k8s-lesson/resolver"
+	"github.com/TakakiAraki09/k8s-lesson/utils"
 
 	// "github.com/TakakiAraki09/k8s-lesson/internal/database"
-	"github.com/TakakiAraki09/k8s-lesson/utils"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 	"github.com/vektah/gqlparser/v2/ast"
@@ -25,7 +29,6 @@ import (
 
 func main() {
 	err := godotenv.Load(".env")
-	// ctx := context.Background()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
@@ -35,6 +38,7 @@ func main() {
 		port = constants.DefaultPort
 	}
 
+	log.Printf("db access")
 	db, err := sql.Open("mysql", utils.CreateDBUrlString(utils.DatabaseMetadata{
 		User:     os.Getenv(constants.EnvDbUser),
 		Password: os.Getenv(constants.EnvDbPassword),
@@ -42,19 +46,40 @@ func main() {
 		Port:     os.Getenv(constants.EnvDbPort),
 		Table:    "example_database",
 	}))
+	defer db.Close()
+
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
-	srv := handler.New(internal.NewExecutableSchema(internal.Config{Resolvers: &graph.Resolver{}}))
+	queries := database.New(db)
+	ctx := context.Background()
+	result, err := queries.GetTodosGetByUserId(ctx, 1)
+
+	if err != nil {
+		log.Printf(utils.CreateDBUrlString(utils.DatabaseMetadata{
+			User:     os.Getenv(constants.EnvDbUser),
+			Password: os.Getenv(constants.EnvDbPassword),
+			Host:     os.Getenv(constants.EnvDbHost),
+			Port:     os.Getenv(constants.EnvDbPort),
+			Table:    "example_database",
+		}))
+		log.Fatal(err)
+	}
+
+	for i := 0; i < len(result); i++ {
+		log.Printf(result[i].Text.String)
+	}
+
+	srv := handler.New(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{
+		Ctx:     ctx,
+		Queries: queries,
+	}}))
 
 	srv.AddTransport(transport.Options{})
 	srv.AddTransport(transport.GET{})
 	srv.AddTransport(transport.POST{})
-
 	srv.SetQueryCache(lru.New[*ast.QueryDocument](1000))
-
 	srv.Use(extension.Introspection{})
 	srv.Use(extension.AutomaticPersistedQuery{
 		Cache: lru.New[string](100),
@@ -64,16 +89,5 @@ func main() {
 	http.Handle("/query", srv)
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-
-	// queries := database.New(db)
-	// result, err := queries.ExampleOne(ctx)
-	// if err != nil {
-	// 	log.Fatal("hogehoge")
-	// 	log.Fatal(err)
-	// }
-	// if result.Title.Valid {
-	// 	log.Printf(result.Title.String)
-	// }
-
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

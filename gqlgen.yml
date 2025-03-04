@@ -2,18 +2,19 @@ schema:
   - schema/graph/*.graphqls
 
 exec:
-  filename: internal/generated.go
-  package: internal
-  layout: single-file # Only other option is "follow-schema," ie multi-file.
+  filename_template: "{name}.generated.go"
+  package: generated
+  dir: internal/generated
+  layout: follow-schema # Only other option is "single-file."
 
 model:
   filename: internal/model/models.go
   package: model
 
 resolver:
-  package: graph
   layout: follow-schema # Only other option is "single-file."
-  dir: graph
+  package: resolver
+  dir: resolver
   filename_template: "{name}.resolvers.go"
 
 call_argument_directives_with_null: true
