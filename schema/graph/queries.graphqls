@@ -8,7 +8,7 @@ extend type Query {
 
 input NewTodo {
   text: String!
-  userId: String!
+  userId: ID!
 }
 
 extend type Mutation {
