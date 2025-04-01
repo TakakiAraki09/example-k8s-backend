@@ -13,7 +13,8 @@ type DatabaseMetadata struct {
 }
 
 func CreateDBUrlString(data DatabaseMetadata) (url string) {
-	url = fmt.Sprintf("%s:%s@(%s:%s)/%s?parseTime=true", data.User, data.Password, data.Host, data.Port, data.Table)
+	url = fmt.Sprintf("%s:%s@(%s:%s)/%s", data.User, data.Password, data.Host, data.Port, data.Table)
+	fmt.Println("DB URL: ", url)
 	return url
 }
 

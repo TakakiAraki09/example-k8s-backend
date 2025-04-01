@@ -2,13 +2,15 @@ services:
   app:
     container_name: go_container
     build: ./
+    depends_on:
+      - db
     ports:
       - 8080:8080
     tty: true
     environment:
-      - DB_PORT=3300
+      - DB_PORT=3306
       - DB_HOST=database_container
-      - DB_USER=docker
+      - DB_USER=root
       - DB_PASSWORD=root
     volumes:
       - ./:/go/src/app

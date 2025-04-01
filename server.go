@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/handler/extension"
@@ -46,10 +47,20 @@ func main() {
 		Port:     os.Getenv(constants.EnvDbPort),
 		Table:    "example_database",
 	}))
-	defer db.Close()
-	if err != nil {
-		log.Fatal(err)
+	for i := 0; i < 10; i++ {
+		err = db.Ping()
+		if err == nil {
+			break
+		}
+		log.Println("Waiting for DB to be ready... retrying")
+		time.Sleep(2 * time.Second)
 	}
+
+	if err != nil {
+		log.Fatal("DB not ready after retries:", err)
+	}
+	defer db.Close()
+
 	queries := database.New(db)
 	server := handler.New(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{
 		Service: service.Service{
