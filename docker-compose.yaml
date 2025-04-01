@@ -5,8 +5,15 @@ services:
     ports:
       - 8080:8080
     tty: true
+    environment:
+      - DB_PORT=3300
+      - DB_HOST=database_container
+      - DB_USER=docker
+      - DB_PASSWORD=root
     volumes:
       - ./:/go/src/app
+    networks:
+      - network1
   db:
     container_name: database_container
     image: ghcr.io/takakiaraki09/example-k8s-database:latest
@@ -17,11 +24,10 @@ services:
       MYSQL_ROOT_PASSWORD: root
     ports:
       - "3300:3306"
-    # environment:
-    #   - DB_PORT=3311
-    #   - DB_HOST=127.0.0.1
-    #   - DB_USER=root
-    #   - DB_PASSWORD=root
+    networks:
+      - network1
 volumes:
   go-db-volume:
 
+networks:
+  network1:
