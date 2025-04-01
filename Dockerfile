@@ -1,17 +1,7 @@
 FROM golang:1.23
-
-ENV ROOT=/go/src/app
-WORKDIR ${ROOT}
-RUN apt update \
-    && apt clean \
-    && rm -r /var/lib/apt/lists/*
-
-RUN apt install git && \
-    apt install curl
-COPY go.mod go.sum ./
+WORKDIR /app
+ADD go.mod go.sum server.go ./
+ADD config/local.env ./
 RUN go mod download
-
-COPY . .
-
-EXPOSE 8080
-CMD ["go", "run", "server.go"]
+RUN go build -o server /app/server.go
+CMD /app/server
