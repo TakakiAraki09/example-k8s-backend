@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 
 	"github.com/99designs/gqlgen/graphql"
-	"github.com/TakakiAraki09/k8s-lesson/internal/model"
+	"github.com/TakakiAraki09/example-k8s-backend/internal/model"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
