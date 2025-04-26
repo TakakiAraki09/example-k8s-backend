@@ -1,6 +1,6 @@
 package service
 
-import "github.com/TakakiAraki09/k8s-lesson/internal/database"
+import "github.com/TakakiAraki09/example-k8s-backend/internal/database"
 
 type Service struct {
 	Queries *database.Queries

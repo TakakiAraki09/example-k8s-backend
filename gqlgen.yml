@@ -20,7 +20,7 @@ resolver:
 call_argument_directives_with_null: true
 
 autobind:
-#  - "github.com/TakakiAraki09/k8s-lesson/graph/model"
+#  - "github.com/TakakiAraki09/example-k8s-backend/graph/model"
 
 models:
   User:

@@ -1,6 +1,6 @@
 package resolver
 
-import "github.com/TakakiAraki09/k8s-lesson/service"
+import "github.com/TakakiAraki09/example-k8s-backend/service"
 
 // This file will not be regenerated automatically.
 //

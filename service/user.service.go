@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 
-	"github.com/TakakiAraki09/k8s-lesson/internal/model"
+	"github.com/TakakiAraki09/example-k8s-backend/internal/model"
 )
 
 func (r *Service) GetUserByTodo(ctx context.Context, id uint32) (*model.User, error) {

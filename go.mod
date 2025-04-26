@@ -1,4 +1,4 @@
-module github.com/TakakiAraki09/k8s-lesson
+module github.com/TakakiAraki09/example-k8s-backend
 
 go 1.22.12
 

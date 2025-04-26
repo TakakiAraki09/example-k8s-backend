@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/TakakiAraki09/k8s-lesson/internal/database"
-	"github.com/TakakiAraki09/k8s-lesson/internal/model"
+	"github.com/TakakiAraki09/example-k8s-backend/internal/database"
+	"github.com/TakakiAraki09/example-k8s-backend/internal/model"
 )
 
 func (r *Service) GetTodoByUserId(ctx context.Context, id uint32) ([]*model.Todo, error) {
