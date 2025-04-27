@@ -24,15 +24,14 @@ import (
 	// "github.com/TakakiAraki09/example-k8s-backend/internal/database"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
 func main() {
-	err := godotenv.Load(".env")
-	if err != nil {
-		log.Println("Error loading .env file")
-	}
+	// err := godotenv.Load(".env")
+	// if err != nil {
+  //  log.Println("Error loading .env file")
+  // }
 
 	port := os.Getenv(constants.EnvPort)
 	if port == "" {
